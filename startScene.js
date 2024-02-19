@@ -28,7 +28,6 @@ class startScene extends Phaser.Scene {
         duration: 750,
         ease: 'Linear',
         onComplete: () => {
-          // Fade in animation complete callback
         }
       });
         
