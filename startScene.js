@@ -37,15 +37,15 @@ class startScene extends Phaser.Scene {
           duration: 4000,
           ease: 'Power2',
           onComplete: () => {
-            // Animation complete callback
+            this.add.text(gameState.larguraJogo/2 - 150, gameState.alturaJogo/2, 'Clique para iniciar o jogo!', {fill: '#000000', fontSize: '20px'});
           }
         });
       }
     });
     
     
-
-		this.add.text(gameState.larguraJogo/2 - 150, gameState.alturaJogo/2, 'Clique para iniciar o jogo!', {fill: '#000000', fontSize: '20px'})
+    this.time.delayedCall(5500, () => {
+    })
 		this.input.on('pointerdown', () => {
 			this.scene.stop('startScene');
 			this.scene.start('levelScene');
