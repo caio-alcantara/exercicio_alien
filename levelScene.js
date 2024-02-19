@@ -1,4 +1,4 @@
-var alien, teclado, fogo, plataforma, moeda, placar;
+var alien, teclado, fogo, plataforma1, plataforma2, moeda, placar;
 
 class levelScene extends Phaser.Scene {
     constructor() {
@@ -22,12 +22,16 @@ class levelScene extends Phaser.Scene {
         teclado = this.input.keyboard.createCursorKeys();
         fogo = this.add.sprite(0, 0, 'turbo');
         fogo.setVisible(false);
-        plataforma = this.physics.add.staticImage(gameState.larguraJogo/2, gameState.alturaJogo/2, 'plataforma');
-        this.physics.add.collider(alien, plataforma);
+        plataforma1 = this.physics.add.staticImage(gameState.larguraJogo/2 + 200, gameState.alturaJogo/2 + 100, 'plataforma');
+        plataforma2 = this.physics.add.staticImage(gameState.larguraJogo/2 - 150, gameState.alturaJogo/2 - 150, 'plataforma');
+        this.physics.add.collider(alien, plataforma1);
+        this.physics.add.collider(alien, plataforma2);
+
         moeda = this.physics.add.sprite(gameState.larguraJogo/2, 50, 'moeda');
         moeda.setCollideWorldBounds(true);
         moeda.setBounce(0.7);
-        this.physics.add.collider(moeda, plataforma);
+        this.physics.add.collider(moeda, plataforma1);
+        this.physics.add.collider(moeda, plataforma2);
         // adicionando placar 
         placar = this.add.text(30, 30, 'Moedas:' + gameState.pontos, {fontSize:'30px', fill:'#495613'});
         alien.setDepth(1);
@@ -65,6 +69,9 @@ class levelScene extends Phaser.Scene {
         if (teclado.up.isDown) {
             alien.setVelocityY(-150);
             ativarTurbo();
+        } else if(teclado.down.isDown) {
+            alien.setVelocityY(150);
+            desativarTurbo();
         }
         fogo.setPosition(alien.x, alien.y + alien.height/2);
     }
