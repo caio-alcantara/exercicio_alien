@@ -1,5 +1,4 @@
 var alien, teclado, fogo, plataforma, moeda, placar;
-var pontos = 0;
 
 class levelScene extends Phaser.Scene {
     constructor() {
@@ -16,21 +15,21 @@ class levelScene extends Phaser.Scene {
 
     create() {
         // Adiciona a imagem de fundo, centralizada de acordo com a largura e altura do jogo
-        this.add.image(larguraJogo/2, alturaJogo/2, 'background');
-        alien = this.physics.add.sprite(larguraJogo/2, alturaJogo/2, 'alien');
+        this.add.image(gameState.larguraJogo/2, gameState.alturaJogo/2, 'background');
+        alien = this.physics.add.sprite(gameState.larguraJogo/2, gameState.alturaJogo/2 + 100, 'alien');
         alien.setCollideWorldBounds(true);
         alien.body.setSize(100, 85, true)
         teclado = this.input.keyboard.createCursorKeys();
         fogo = this.add.sprite(0, 0, 'turbo');
         fogo.setVisible(false);
-        plataforma = this.physics.add.staticImage(larguraJogo/2, alturaJogo/2, 'plataforma');
+        plataforma = this.physics.add.staticImage(gameState.larguraJogo/2, gameState.alturaJogo/2, 'plataforma');
         this.physics.add.collider(alien, plataforma);
-        moeda = this.physics.add.sprite(larguraJogo/2, 50, 'moeda');
+        moeda = this.physics.add.sprite(gameState.larguraJogo/2, 50, 'moeda');
         moeda.setCollideWorldBounds(true);
         moeda.setBounce(0.7);
         this.physics.add.collider(moeda, plataforma);
         // adicionando placar 
-        placar = this.add.text(30, 30, 'Moedas:' + pontos, {fontSize:'30px', fill:'#495613'});
+        placar = this.add.text(30, 30, 'Moedas:' + gameState.pontos, {fontSize:'30px', fill:'#495613'});
         alien.setDepth(1);
         fogo.setDepth(0);
 
@@ -39,13 +38,19 @@ class levelScene extends Phaser.Scene {
             moeda.setVisible(false);
             var posicaoMoedaY = Phaser.Math.RND.between(50, 650);
             moeda.setPosition(posicaoMoedaY, 100);
-            pontos ++;
-            placar.setText('Moedas: ' + pontos);
+            gameState.pontos ++;
+            placar.setText('Moedas: ' + gameState.pontos);
             moeda.setVisible(true);
         });
     }
 
     update() {
+
+        if (gameState.pontos == 15) {
+            this.scene.stop('levelScene');
+            this.scene.start('endScene');
+        }
+
         if (teclado.left.isDown) {
             alien.setVelocityX(-150);
             desativarTurbo();
