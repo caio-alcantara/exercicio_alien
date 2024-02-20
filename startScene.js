@@ -40,6 +40,8 @@ class startScene extends Phaser.Scene {
             this.add.text(gameState.larguraJogo/2 - 150, gameState.alturaJogo/2, 'Clique para iniciar o jogo!', {fill: '#000000', fontSize: '20px'});
           }
         });
+
+        
       }
     });
     
