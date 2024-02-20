@@ -12,25 +12,25 @@ class startScene extends Phaser.Scene {
 
 	create() {
     gameState.pontos = 0;
+
     this.add.image(gameState.larguraJogo/2, gameState.alturaJogo/2, 'background')
     naveMae = this.add.image(-500, gameState.alturaJogo/2 - 200, 'nave-mae').setScale(0.18);
     alien = this.add.image(360, 150, 'alien');
     alien.setAlpha(0);
+
     this.tweens.add({
       targets: naveMae,
       x: 350,
       duration: 3000,
       ease: 'Power2',
       onComplete: () => {
-      this.tweens.add({
-        targets: alien,
-        alpha: { from: 0, to: 1 },
-        duration: 750,
-        ease: 'Linear',
-        onComplete: () => {
-        }
-      });
-        
+        this.tweens.add({
+          targets: alien,
+          alpha: { from: 0, to: 1 },
+          duration: 750,
+          ease: 'Linear',
+        });
+
         this.tweens.add({
           targets: alien,
           y: 450,
@@ -40,18 +40,12 @@ class startScene extends Phaser.Scene {
             this.add.text(gameState.larguraJogo/2 - 150, gameState.alturaJogo/2, 'Clique para iniciar o jogo!', {fill: '#000000', fontSize: '20px'});
           }
         });
-
-        
       }
     });
     
-    
-    this.time.delayedCall(5500, () => {
-    })
 		this.input.on('pointerdown', () => {
 			this.scene.stop('startScene');
 			this.scene.start('levelScene');
 		})
 	}
-  
 }
